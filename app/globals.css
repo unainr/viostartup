@@ -128,3 +128,12 @@
     @apply font-sans;
   }
 }
+
+@layer utilities {
+  .bg-vio-gradient {
+    @apply bg-linear-to-br from-[#9b51e0] via-[#5b86e5] to-[#2bbdd7];
+  }
+  .text-vio-gradient {
+    @apply bg-linear-to-r from-[#9b51e0] via-[#5b86e5] to-[#2bbdd7] text-transparent bg-clip-text;
+  }
+}

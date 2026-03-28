@@ -1,9 +1,15 @@
-import React from 'react'
+import HomeView from '@/modules/home/ui/views/home-view'
+import { client } from '@/sanity/lib/client'
+import { CASE_STUDIES_QUERY } from '@/sanity/lib/queries'
 
-const Home = () => {
+export const revalidate = 60 // revalidate every minute
+
+export default async function Home() {
+  const projects = await client.fetch(CASE_STUDIES_QUERY)
+
   return (
-    <div className='flex flex-col itecems-center items-center my-40 justify-center min-h-screen '>Home</div>
+    <>
+      <HomeView projects={projects} />
+    </>
   )
 }
-
-export default Home
