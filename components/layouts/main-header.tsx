@@ -47,20 +47,19 @@ export const HeaderNav = () => {
 								className="-mr-3 flex items-center gap-2 whitespace-nowrap">
 								<Image
 									src="/logo2.png"
-									alt="Design Logo"
-									width={130}
+									alt="viocodes light Logo"
+									width={120}
 									height={50}
-									className="z-10 hidden   dark:block"
+									className="z-10 hidden h-auto w-full   dark:block"
 									priority
 								/>
 								<Image
 									src="/logo1.png"
-									alt="Design Logo"
-									width={130}
+									alt="viocodes dark Logo"
+									width={120}
 									height={50}
-									className="z-10 block  dark:hidden dark:invert"
+									className="z-10 block h-auto w-full dark:hidden dark:invert"
 									priority
-
 								/>
 							</Link>
 

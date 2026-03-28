@@ -1,4 +1,5 @@
 import { HeaderNav } from '@/components/layouts/main-header'
+import { Footer } from '@/components/shared/footer'
 import { LayoutTypes } from '@/types'
 
 const Layout = ({children}:LayoutTypes) => {
@@ -6,6 +7,7 @@ const Layout = ({children}:LayoutTypes) => {
     <>
     <HeaderNav/>
     {children}
+    <Footer/>
     </>
   )
 }
