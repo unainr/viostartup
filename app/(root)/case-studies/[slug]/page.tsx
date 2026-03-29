@@ -13,9 +13,7 @@ const CaseStudyPage = async ({ params }: PageProps) => {
   const { slug } = await params;
   const project = await client.fetch(CASE_STUDY_BY_SLUG_QUERY, { slug })
 
-  if (!project) {
-    notFound()
-  }
+  
 
   return <CaseStudyDetailView project={project} />
 }
