@@ -11,9 +11,18 @@ interface PageProps {
 
 const CaseStudyPage = async ({ params }: PageProps) => {
   const { slug } = await params;
-  const project = await client.fetch(CASE_STUDY_BY_SLUG_QUERY, { slug })
-
+if(!slug) return notFound()
+  let project
+  try {
+   project = await client.fetch(CASE_STUDY_BY_SLUG_QUERY, { slug })
   
+} catch (error) {
+   console.error("Sanity error:", error);
+    notFound();
+}
+   if (!project) {
+    notFound();
+  }
 
   return <CaseStudyDetailView project={project} />
 }
