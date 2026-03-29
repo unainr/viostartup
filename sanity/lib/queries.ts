@@ -32,7 +32,7 @@ export const CASE_STUDIES_QUERY = defineQuery(`
 `);
 
 export const CASE_STUDY_BY_SLUG_QUERY = defineQuery(`
-  *[_type == "project" && slug.current === $slug][0] {
+  *[_type == "project" && slug.current == $slug][0] {
     _id,
     name,
     tagline,

@@ -5,187 +5,211 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { ArrowLeft, ArrowUpRight, ChevronRight, CheckCircle2 } from 'lucide-react'
+import { Separator } from '@/components/ui/separator'
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb'
+import { ArrowLeft, ArrowUpRight, CheckCircle2, Layers, Lightbulb, Target, Zap } from 'lucide-react'
 import { Project } from '@/types/project'
-import { motion, type Variants } from 'motion/react'
 
 interface CaseStudyDetailViewProps {
   project: Project;
 }
 
-const sectionVariants: Variants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
-    transition: { type: "spring", stiffness: 80, damping: 20 } 
-  }
-};
-
 export const CaseStudyDetailView = ({ project }: CaseStudyDetailViewProps) => {
+  const accent = project.accentColor || '#9b51e0'
+
   return (
-    <article className="min-h-screen bg-background pb-32">
-      
-      {/* PROFESSIONAL HERO BANNER */}
-      <section className="relative w-full border-b border-border/40 pt-32 pb-20 overflow-hidden">
-        {/* Background Ambient Glow */}
-        <div className="absolute inset-0 bg-background z-0" />
-        <div 
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] md:w-[50vw] h-75 opacity-[0.03] blur-[100px] rounded-full z-0 pointer-events-none"
-          style={{ backgroundColor: project.accentColor || '#9b51e0' }}
-        />
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <nav className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground mb-10 font-medium" aria-label="Breadcrumb">
-              <Link href="/" className="hover:text-cyan-400 transition-colors">Home</Link>
-              <ChevronRight className="w-4 h-4 text-border" />
-              <Link href="/case-studies" className="hover:text-cyan-400 transition-colors">Case Studies</Link>
-              <ChevronRight className="w-4 h-4 text-border" />
-              <span className="text-foreground" aria-current="page">{project.name}</span>
-            </nav>
-          </motion.div>
+    <article className="min-h-screen bg-background">
 
-          <header className="max-w-4xl">
-            <motion.div 
-              className="flex flex-wrap items-center gap-3 mb-6"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-            >
-              {project.category && (
-                <Badge variant="secondary" className="bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 border-cyan-500/20">
-                  {project.category}
-                </Badge>
-              )}
-              {project.year && (
-                <Badge variant="outline" className="font-mono text-muted-foreground border-border/50 bg-muted/30">
-                  {project.year}
-                </Badge>
-              )}
-            </motion.div>
-            
-            <motion.h1 
-              className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 leading-tight"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              {project.name}
-            </motion.h1>
-            
-            {project.tagline && (
-              <motion.p 
-                className="text-xl md:text-2xl text-muted-foreground font-medium mb-10 leading-relaxed max-w-3xl"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-              >
-                {project.tagline}
-              </motion.p>
+      {/* ── HERO ─────────────────────────────────────────────── */}
+      <section className="relative pt-28 pb-16 border-b border-border/50 overflow-hidden">
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(155,81,224,0.07),transparent)]" />
+          <div
+            className="absolute top-0 left-1/2 -translate-x-1/2 w-175 h-75 blur-[120px] opacity-[0.05] rounded-full"
+            style={{ backgroundColor: accent }}
+          />
+        </div>
+
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+          {/* Breadcrumb */}
+          <Breadcrumb className="mb-10">
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  <Link href="/" className="text-sm hover:text-foreground transition-colors">
+                    Home
+                  </Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  <Link href="/case-studies" className="text-sm hover:text-foreground transition-colors">
+                    Case Studies
+                  </Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage className="text-sm font-medium truncate max-w-55">
+                  {project.name}
+                </BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+
+          {/* Meta badges */}
+          <div className="flex flex-wrap items-center gap-2 mb-5">
+            {project.category && (
+              <Badge className="bg-violet-500/10 text-violet-400 border border-violet-500/20 hover:bg-violet-500/15 transition-colors rounded-full px-3 py-0.5 text-xs font-semibold uppercase tracking-wide">
+                {project.category}
+              </Badge>
             )}
+            {project.year && (
+              <Badge variant="outline" className="font-mono text-xs text-muted-foreground border-border/60 rounded-full px-3 py-0.5">
+                {project.year}
+              </Badge>
+            )}
+          </div>
 
+          {/* Title */}
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] mb-5">
+            {project.name}
+          </h1>
+
+          {/* Tagline */}
+          {project.tagline && (
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl leading-relaxed mb-10">
+              {project.tagline}
+            </p>
+          )}
+
+          {/* CTAs */}
+          <div className="flex flex-wrap items-center gap-3">
             {project.projectLink && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
+              <Button
+                asChild
+                size="lg"
+                className="rounded-full font-semibold text-white border-0 bg-linear-to-r from-violet-600 to-cyan-500 hover:opacity-90 transition-opacity shadow-lg shadow-violet-500/20 px-6"
               >
-                <Button asChild size="lg" className="rounded-full shadow-lg shadow-cyan-500/10 hover:shadow-cyan-500/20 bg-linear-to-r from-[#9b51e0] to-[#2bbdd7] border-0 text-white font-bold transition-all hover:scale-[1.02]">
-                  <a href={project.projectLink} target="_blank" rel="noopener noreferrer">
-                    Visit Live Project <ArrowUpRight className="ml-2 h-4 w-4" />
-                  </a>
-                </Button>
-              </motion.div>
+                <a href={project.projectLink} target="_blank" rel="noopener noreferrer">
+                  View Live Project <ArrowUpRight className="ml-2 h-4 w-4" />
+                </a>
+              </Button>
             )}
-          </header>
+            <Button
+              variant="ghost"
+              size="lg"
+              asChild
+              className="rounded-full text-muted-foreground hover:text-foreground group"
+            >
+              <Link href="/case-studies">
+                <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
+                All Case Studies
+              </Link>
+            </Button>
+          </div>
         </div>
       </section>
 
-      {/* CASE STUDY CONTENT */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 md:mt-24">
-        {project.image && (
-          <motion.div 
-            className="relative aspect-video lg:aspect-21/9 w-full rounded-2xl md:rounded-3xl overflow-hidden mb-16 md:mb-24 shadow-2xl border border-border/40 bg-muted"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7 }}
-          >
+      {/* ── HERO IMAGE ───────────────────────────────────────── */}
+      {project.image && (
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
+          <div className="relative aspect-video w-full rounded-2xl overflow-hidden border border-border/40 shadow-2xl bg-muted">
             <Image
               src={project.image}
-              alt={`${project.name} Preview`}
+              alt={`${project.name} preview`}
               fill
               className="object-cover"
               priority
               sizes="(max-width: 1200px) 100vw, 1200px"
             />
-          </motion.div>
-        )}
+            <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/5 pointer-events-none" />
+          </div>
+        </div>
+      )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-16 lg:gap-24">
-          <div className="space-y-20 text-base md:text-lg text-foreground/80 leading-relaxed">
+      {/* ── MAIN CONTENT ─────────────────────────────────────── */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-16 lg:gap-20 items-start">
+
+          {/* Left — narrative */}
+          <div className="space-y-14">
+
             {project.description && (
-              <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-                <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-6 text-foreground">Overview</h2>
-                <p className="whitespace-pre-line text-muted-foreground">{project.description}</p>
-              </motion.section>
+              <section>
+                <SectionLabel icon={<Layers className="w-4 h-4" />} label="Overview" />
+                <p className="mt-5 text-base md:text-lg text-muted-foreground leading-relaxed whitespace-pre-line">
+                  {project.description}
+                </p>
+              </section>
             )}
+
+            {project.description && project.challenge && <Separator className="bg-border/40" />}
 
             {project.challenge && (
-              <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-                <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-6 text-foreground">The Challenge</h2>
-                <Card className="bg-card border-border/40 shadow-sm">
-                  <CardContent className="p-6 md:p-8">
-                     <p className="whitespace-pre-line text-muted-foreground">{project.challenge}</p>
-                  </CardContent>
-                </Card>
-              </motion.section>
+              <section>
+                <SectionLabel icon={<Target className="w-4 h-4" />} label="The Challenge" />
+                <div className="mt-5 rounded-xl border border-border/50 bg-card/60 p-6 md:p-8">
+                  <p className="text-base md:text-lg text-muted-foreground leading-relaxed whitespace-pre-line">
+                    {project.challenge}
+                  </p>
+                </div>
+              </section>
             )}
+
+            {project.challenge && project.solution && <Separator className="bg-border/40" />}
 
             {project.solution && (
-              <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-                <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-6 text-foreground inline-flex items-center gap-3">
-                  <span className="text-transparent bg-clip-text bg-linear-to-r from-[#9b51e0] to-[#2bbdd7]">The Solution</span>
-                </h2>
-                <p className="whitespace-pre-line text-muted-foreground">{project.solution}</p>
-              </motion.section>
+              <section>
+                <SectionLabel icon={<Lightbulb className="w-4 h-4" />} label="The Solution" gradient />
+                <p className="mt-5 text-base md:text-lg text-muted-foreground leading-relaxed whitespace-pre-line">
+                  {project.solution}
+                </p>
+              </section>
             )}
 
+            {project.solution && project.result && <Separator className="bg-border/40" />}
+
             {project.result && (
-              <motion.section variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-                <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-6 text-foreground">Outcome & Results</h2>
-                <div className="flex gap-4 p-6 rounded-2xl bg-[#2bbdd7]/5 border border-[#2bbdd7]/20">
-                  <CheckCircle2 className="w-6 h-6 text-[#2bbdd7] shrink-0 mt-1" />
-                  <p className="whitespace-pre-line text-[#2bbdd7] font-medium">{project.result}</p>
+              <section>
+                <SectionLabel icon={<Zap className="w-4 h-4" />} label="Outcome & Results" />
+                <div className="mt-5 flex gap-4 p-6 md:p-8 rounded-xl bg-emerald-500/5 border border-emerald-500/20">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+                  <p className="text-base md:text-lg text-emerald-400/90 font-medium leading-relaxed whitespace-pre-line">
+                    {project.result}
+                  </p>
                 </div>
-              </motion.section>
+              </section>
             )}
           </div>
 
-          <aside className="space-y-10">
-            <motion.div 
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="sticky top-32"
-            >
-              <Card className="bg-card/40 backdrop-blur-md border border-border/40 shadow-lg">
-                <CardHeader className="pb-4">
-                  <CardTitle className="text-xl font-bold">Technology Stack</CardTitle>
-                </CardHeader>
-                <CardContent>
+          {/* Right — sticky sidebar */}
+          <aside>
+            <div className="sticky top-28 space-y-5">
+
+              {/* Stack card */}
+              <div className="rounded-xl border border-border/50 bg-card/60 overflow-hidden">
+                <div className="px-5 py-4 border-b border-border/40">
+                  <p className="text-sm font-semibold text-foreground">Technology Stack</p>
+                </div>
+                <div className="p-5">
                   {project.stack && project.stack.length > 0 ? (
                     <div className="flex flex-wrap gap-2">
                       {project.stack.map((tech: string) => (
-                        <Badge key={tech} variant="outline" className="bg-background border-border text-foreground hover:border-cyan-500/40 transition-colors py-1">
+                        <Badge
+                          key={tech}
+                          variant="secondary"
+                          className="rounded-md bg-muted/70 text-foreground/80 border border-border/50 hover:border-violet-500/40 hover:text-foreground transition-colors text-xs py-1 px-2.5"
+                        >
                           {tech}
                         </Badge>
                       ))}
@@ -193,21 +217,76 @@ export const CaseStudyDetailView = ({ project }: CaseStudyDetailViewProps) => {
                   ) : (
                     <p className="text-sm text-muted-foreground">Stack details coming soon.</p>
                   )}
-                </CardContent>
-              </Card>
-
-              <div className="mt-8 px-2">
-                <Button variant="ghost" asChild className="hover:text-cyan-400 group h-auto py-2 -ml-2">
-                  <Link href="/case-studies">
-                    <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
-                    Back to Case Studies
-                  </Link>
-                </Button>
+                </div>
               </div>
-            </motion.div>
+
+              {/* Project meta card */}
+              <div className="rounded-xl border border-border/50 bg-card/60 overflow-hidden">
+                <div className="px-5 py-4 border-b border-border/40">
+                  <p className="text-sm font-semibold text-foreground">Project Info</p>
+                </div>
+                <div className="divide-y divide-border/30">
+                  {project.category && (
+                    <div className="flex items-center justify-between px-5 py-3.5">
+                      <span className="text-xs text-muted-foreground uppercase tracking-wide font-medium">Category</span>
+                      <span className="text-sm text-foreground font-medium">{project.category}</span>
+                    </div>
+                  )}
+                  {project.year && (
+                    <div className="flex items-center justify-between px-5 py-3.5">
+                      <span className="text-xs text-muted-foreground uppercase tracking-wide font-medium">Year</span>
+                      <span className="text-sm text-foreground font-mono">{project.year}</span>
+                    </div>
+                  )}
+                  {project.projectLink && (
+                    <div className="flex items-center justify-between px-5 py-3.5">
+                      <span className="text-xs text-muted-foreground uppercase tracking-wide font-medium">Live URL</span>
+                      <a
+                        href={project.projectLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-violet-400 hover:text-violet-300 transition-colors flex items-center gap-1 truncate max-w-35"
+                      >
+                        Visit <ArrowUpRight className="w-3.5 h-3.5 shrink-0" />
+                      </a>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Back link */}
+              <Button
+                variant="ghost"
+                asChild
+                className="w-full justify-start text-muted-foreground hover:text-foreground group rounded-xl border border-border/40 hover:border-border/70 h-11 transition-colors"
+              >
+                <Link href="/case-studies">
+                  <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
+                  Back to Case Studies
+                </Link>
+              </Button>
+            </div>
           </aside>
+
         </div>
       </div>
     </article>
+  )
+}
+
+function SectionLabel({
+  icon, label, gradient = false
+}: { icon: React.ReactNode; label: string; gradient?: boolean }) {
+  return (
+    <div className="flex items-center gap-2.5">
+      <span className="text-muted-foreground">{icon}</span>
+      <h2 className={`text-xl md:text-2xl font-bold tracking-tight ${
+        gradient
+          ? 'text-transparent bg-clip-text bg-linear-to-r from-violet-400 to-cyan-400'
+          : 'text-foreground'
+      }`}>
+        {label}
+      </h2>
+    </div>
   )
 }
