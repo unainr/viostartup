@@ -32,7 +32,7 @@ export const CaseStudyDetailView = ({ project }: CaseStudyDetailViewProps) => {
         {/* Background Ambient Glow */}
         <div className="absolute inset-0 bg-background z-0" />
         <div 
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] md:w-[50vw] h-[300px] opacity-[0.03] blur-[100px] rounded-full z-0 pointer-events-none"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] md:w-[50vw] h-75 opacity-[0.03] blur-[100px] rounded-full z-0 pointer-events-none"
           style={{ backgroundColor: project.accentColor || '#9b51e0' }}
         />
         

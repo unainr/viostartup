@@ -9,6 +9,7 @@ import { PricingSection } from '../components/pricing'
 import { Project } from '@/types/project'
 import { ArrowDown } from 'lucide-react'
 import { motion } from 'motion/react'
+import { HeroSection } from '../components/hero-section';
 
 interface HomeViewProps {
   projects: Project[];
@@ -16,45 +17,12 @@ interface HomeViewProps {
 
 export default function HomeView({ projects }: HomeViewProps) {
   return (
+    <>
+    <div className='py-20'>
+
+    <HeroSection/>
+    </div>
     <div className="flex flex-col min-h-screen">
-      
-      {/* HERO SECTION */}
-      <section className="relative flex flex-col items-center justify-center min-h-[90vh] pt-20 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-vio-gradient opacity-[0.05] blur-[100px] rounded-full pointer-events-none" />
-        
-        <motion.h1 
-          className="text-5xl md:text-8xl font-black tracking-tight mb-8 z-10 leading-[1.1]"
-          initial={{ opacity: 0, scale: 0.9, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.6, type: "spring", stiffness: 100, damping: 20 }}
-        >
-          We build <br className="hidden md:block" />
-          <span className="text-transparent bg-clip-text bg-linear-to-r from-foreground to-foreground/50">digital</span> excellence.
-        </motion.h1>
-        
-        <motion.p 
-          className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto z-10 mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          Viocodes is a top-tier development agency delivering high-performance, beautiful, and scalable digital solutions.
-        </motion.p>
-        
-        <motion.div 
-          className="z-10 mt-10 text-muted-foreground/50"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.8 }}
-        >
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-          >
-            <ArrowDown className="w-8 h-8" />
-          </motion.div>
-        </motion.div>
-      </section>
 
       {/* ABOUT SECTION (What We Offer) */}
       {/* <AboutSection /> */}
@@ -126,5 +94,6 @@ export default function HomeView({ projects }: HomeViewProps) {
       <CTASection />
 
     </div>
+    </>
   )
 }

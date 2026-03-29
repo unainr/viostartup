@@ -4,7 +4,6 @@ import { client } from '@/sanity/lib/client'
 import { CASE_STUDY_BY_SLUG_QUERY } from '@/sanity/lib/queries'
 import { notFound } from 'next/navigation'
 
-export const revalidate = 60
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -22,3 +21,5 @@ const CaseStudyPage = async ({ params }: PageProps) => {
 }
 
 export default CaseStudyPage
+
+export const revalidate = 60
