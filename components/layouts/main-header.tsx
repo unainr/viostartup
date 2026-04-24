@@ -2,122 +2,118 @@
 
 import React from "react";
 import Link from "next/link";
-import { Menu, Search, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useScroll } from "motion/react";
-
 import { cn } from "@/lib/utils";
-import { Separator } from "@/components/ui/separator";
-import { ModeToggle } from "../theme/mode-toggle";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 
 const menuItems = [
-	{ name: "Home", href: "/" },
-	{ name: "New Call", href: "/new-call" },
-	{ name: "Pricing", href: "/pricing" },
+  { name: "Home", href: "/" },
+  { name: "New Call", href: "/new-call" },
+  { name: "Pricing", href: "/pricing" },
 ];
 
 export const HeaderNav = () => {
-	const [menuState, setMenuState] = React.useState(false);
-	const [scrolled, setScrolled] = React.useState(false);
-	const pathname = usePathname();
-	const isActive = (path: string) => pathname === path;
-	const { scrollYProgress } = useScroll();
+  const [menuState, setMenuState] = React.useState(false);
+  const [scrolled, setScrolled] = React.useState(false);
+  const pathname = usePathname();
+  const isActive = (path: string) => pathname === path;
+  const { scrollYProgress } = useScroll();
 
-	React.useEffect(() => {
-		const unsubscribe = scrollYProgress.on("change", (latest) => {
-			setScrolled(latest > 0.05);
-		});
-		return () => unsubscribe();
-	}, [scrollYProgress]);
+  React.useEffect(() => {
+    const unsubscribe = scrollYProgress.on("change", (latest) => {
+      setScrolled(latest > 0.02);
+    });
+    return () => unsubscribe();
+  }, [scrollYProgress]);
 
-	return (
-		<header>
-			<nav
-				data-state={menuState && "active"}
-				className={cn(
-					"fixed z-50 h-14 w-full border-b transition-colors duration-150",
-					scrolled && "bg-background/50 backdrop-blur-xl",
-				)}>
-				<div className="h-full px-3 transition-all duration-300">
-					<div className="relative flex h-full flex-wrap items-center justify-between gap-3 lg:gap-0">
-						<div className="flex h-full w-full items-center justify-between gap-6 lg:w-auto">
-							<Link
-								href="/"
-								className="-mr-3 flex items-center gap-2 whitespace-nowrap">
-								<Image
-									src="/logo2.png"
-									alt="viocodes light Logo"
-									width={120}
-									height={50}
-									className="z-10 hidden h-auto w-full   dark:block"
-									priority
-								/>
-								<Image
-									src="/logo1.png"
-									alt="viocodes dark Logo"
-									width={120}
-									height={50}
-									className="z-10 block h-auto w-full dark:hidden dark:invert"
-									priority
-								/>
-							</Link>
+  return (
+    <header>
+      <nav
+        data-state={menuState && "active"}
+        className={cn(
+          "fixed z-50 h-14 w-full transition-all duration-300",
+          scrolled
+            ? "bg-black/60 backdrop-blur-xl border-b border-white/8"
+            : "bg-transparent border-b border-transparent"
+        )}
+      >
+        <div className="h-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+          <div className="relative flex h-full items-center justify-between">
+            {/* Logo */}
+            <Link href="/" className="flex items-center shrink-0">
+              <Image
+                src="/logo2.png"
+                alt="Viocodes Logo"
+                width={110}
+                height={44}
+                className="h-auto w-auto"
+                priority
+              />
+            </Link>
 
-							<Separator className="hidden lg:block" orientation="vertical" />
+            {/* Desktop nav */}
+            <ul className="hidden lg:flex items-center gap-8 text-sm">
+              {menuItems.map((item, index) => (
+                <li key={index}>
+                  <Link
+                    href={item.href}
+                    className={cn(
+                      "relative py-1 transition-colors duration-200",
+                      isActive(item.href)
+                        ? "text-white font-semibold"
+                        : "text-white/50 hover:text-white/90"
+                    )}
+                  >
+                    {item.name}
+                    {/* Active underline with brand gradient */}
+                    {isActive(item.href) && (
+                      <span className="absolute -bottom-0.5 left-0 right-0 h-px bg-linear-to-r from-fuchsia-500 via-violet-500 to-sky-400 rounded-full" />
+                    )}
+                  </Link>
+                </li>
+              ))}
+            </ul>
 
-							<button
-								onClick={() => setMenuState(!menuState)}
-								aria-label={menuState == true ? "Close Menu" : "Open Menu"}
-								className="relative z-20 -m-2.5 mr-2 block cursor-pointer p-2.5 lg:hidden">
-								<Menu className="m-auto size-6 duration-200 in-data-[state=active]:scale-0 in-data-[state=active]:rotate-180 in-data-[state=active]:opacity-0" />
-								<X className="absolute inset-0 m-auto size-6 scale-0 -rotate-180 opacity-0 duration-200 in-data-[state=active]:scale-100 in-data-[state=active]:rotate-0 in-data-[state=active]:opacity-100" />
-							</button>
+            {/* Mobile burger */}
+            <button
+              onClick={() => setMenuState(!menuState)}
+              aria-label={menuState ? "Close Menu" : "Open Menu"}
+              className="lg:hidden relative z-20 p-2 text-white/60 hover:text-white transition-colors"
+            >
+              {menuState ? <X className="size-5" /> : <Menu className="size-5" />}
+            </button>
+          </div>
+        </div>
 
-							<div className="hidden lg:block">
-								<ul className="flex gap-10 text-sm">
-									{menuItems.map((item, index) => (
-										<li key={index}>
-											<Link
-												href={item.href}
-												className={cn(
-													"text-accent-foreground hover:text-muted-foreground block duration-150",
-													isActive(item.href) &&
-														"text-red-400 hover:text-red-500 underline underline-offset-4  font-semibold",
-												)}>
-												<span>{item.name}</span>
-											</Link>
-										</li>
-									))}
-								</ul>
-							</div>
-						</div>
-
-						<div className="bg-background mb-6 hidden w-full flex-wrap items-center justify-end space-y-8 rounded-3xl border p-6 shadow-2xl in-data-[state=active]:block md:flex-nowrap lg:m-0 lg:flex lg:h-14 lg:w-fit lg:gap-4 lg:space-y-0 lg:border-transparent lg:bg-transparent lg:p-0 lg:shadow-none lg:in-data-[state=active]:flex dark:shadow-none dark:lg:bg-transparent">
-							<div className="lg:hidden">
-								<ul className="space-y-6 text-base">
-									{menuItems.map((item, index) => (
-										<li key={index}>
-											<Link
-												href={item.href}
-												className={cn(
-													"text-accent-foreground hover:text-muted-foreground block duration-150",
-													isActive(item.href) &&
-														"text-red-400 hover:text-red-500 underline underline-offset-4  font-semibold",
-												)}>
-												<span>{item.name}</span>
-											</Link>
-										</li>
-									))}
-								</ul>
-							</div>
-
-							<Separator orientation="vertical" />
-							<ModeToggle />
-							<Separator orientation="vertical" />
-						</div>
-					</div>
-				</div>
-			</nav>
-		</header>
-	);
+        {/* Mobile menu */}
+        {menuState && (
+          <div className="lg:hidden absolute top-14 left-0 right-0 bg-black/95 backdrop-blur-xl border-b border-white/8 px-4 py-6">
+            <ul className="space-y-1">
+              {menuItems.map((item, index) => (
+                <li key={index}>
+                  <Link
+                    href={item.href}
+                    onClick={() => setMenuState(false)}
+                    className={cn(
+                      "block px-4 py-3 rounded-xl text-sm transition-colors duration-200",
+                      isActive(item.href)
+                        ? "text-white font-semibold bg-white/5 border border-white/8"
+                        : "text-white/50 hover:text-white hover:bg-white/3"
+                    )}
+                  >
+                    {item.name}
+                    {isActive(item.href) && (
+                      <span className="ml-2 inline-block w-1 h-1 rounded-full bg-violet-400 align-middle" />
+                    )}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </nav>
+    </header>
+  );
 };

@@ -2,9 +2,10 @@
 
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
 import { Quote } from 'lucide-react';
 import { motion, type Variants } from 'motion/react';
+import { brandGradient } from '@/lib/brand';
+import { cn } from '@/lib/utils';
 
 const testimonials = [
   {
@@ -18,98 +19,97 @@ const testimonials = [
     role: "Founder, Apex Logistics",
   },
   {
-    quote: "The team at Viocodes doesn't just build software; they build businesses. Their strategic insight during the development process saved us countless hours and resources.",
+    quote: "The team at Viocodes doesn't just build software — they build businesses. Their strategic insight during development saved us countless hours and resources.",
     author: "Emily Rodriguez",
     role: "Product Manager, Innovate AI",
-  }
+  },
 ];
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.2 }
-  }
+  visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
 };
 
 const itemVariants: Variants = {
-  hidden: { y: 30, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: { type: "spring", stiffness: 100, damping: 20 }
-  }
+  hidden: { y: 24, opacity: 0 },
+  visible: { y: 0, opacity: 1, transition: { type: "spring", stiffness: 100, damping: 20 } },
 };
 
 export const TestimonialsSection = () => {
   return (
-    <section className="py-24 px-4 sm:px-6 lg:px-8 bg-background border-t border-border/40 overflow-hidden relative">
-      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#9b51e0] opacity-[0.02] blur-[100px] rounded-full pointer-events-none" />
+    <section className="py-24 px-4 sm:px-6 lg:px-8 bg-black border-t border-white/10 overflow-hidden relative">
+      <div className="absolute top-0 right-0 w-100 h-100 bg-violet-600 opacity-[0.04] blur-[150px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-100 h-100 bg-sky-500 opacity-[0.03] blur-[150px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="text-center mb-20 space-y-4">
+        {/* Header */}
+        <div className="text-center mb-16 space-y-4">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.4 }}
           >
-            <Badge variant="outline" className="px-3 py-1 text-sm font-medium border-[#9b51e0]/20 bg-[#9b51e0]/5 text-[#9b51e0]">
+            <Badge variant="outline" className="px-4 py-1.5 text-xs font-semibold tracking-widest uppercase border-violet-500/30 bg-violet-500/10 text-violet-300">
               Testimonials
             </Badge>
           </motion.div>
-          <motion.h2 
-            className="text-4xl md:text-6xl font-extrabold tracking-tight"
+
+          <motion.h2
+            className="text-4xl md:text-6xl font-extrabold tracking-tight text-white"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            Client <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#9b51e0] to-[#2bbdd7]">success stories</span>
+            Client{" "}
+            <span className={brandGradient}>success stories</span>
           </motion.h2>
-          <motion.p 
-            className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto"
+
+          <motion.p
+            className="text-base md:text-lg text-white/50 max-w-xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            Don't just take our word for it. Explore the experiences of our satisfied partners.
+            Don't just take our word for it. Hear directly from our partners.
           </motion.p>
         </div>
 
-        <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+        {/* Cards */}
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: "-80px" }}
         >
           {testimonials.map((testimonial, index) => (
             <motion.div key={index} variants={itemVariants} className="h-full">
-              <Card className="bg-card/50 backdrop-blur-md border border-white/5 rounded-3xl shadow-sm hover:shadow-2xl hover:border-cyan-500/30 transition-all duration-500 h-full group">
-                <CardContent className="p-8 pb-10 flex flex-col h-full relative overflow-hidden">
-                   <div className="absolute -top-4 -right-4 text-[#2bbdd7]/10 group-hover:text-[#2bbdd7]/20 transition-colors duration-500">
-                     <Quote className="w-32 h-32" fill="currentColor" stroke="none" />
-                   </div>
-                  
-                  <div className="relative z-10 flex flex-col flex-grow pt-4">
-                     <p className="text-lg font-medium leading-relaxed mb-10 flex-grow text-foreground/90">
-                       "{testimonial.quote}"
-                     </p>
-                     
-                     <div className="flex items-center gap-4 mt-auto">
-                       <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#9b51e0] to-[#2bbdd7] flex items-center justify-center text-white font-bold text-lg shadow-inner">
-                         {testimonial.author.charAt(0)}
-                       </div>
-                       <div>
-                         <p className="font-bold tracking-tight text-base mb-0.5 text-foreground">{testimonial.author}</p>
-                         <p className="text-sm text-transparent bg-clip-text bg-gradient-to-r from-[#9b51e0] to-[#2bbdd7] font-bold">{testimonial.role}</p>
-                       </div>
-                     </div>
+              <div className="group relative p-7 rounded-2xl border border-white/8 bg-white/3 hover:bg-white/5 hover:border-white/15 backdrop-blur-md overflow-hidden h-full transition-all duration-500 flex flex-col">
+                {/* Background quote icon */}
+                <Quote className="absolute -top-2 -right-2 w-24 h-24 text-white/3 group-hover:text-violet-500/10 transition-colors duration-500" fill="currentColor" stroke="none" />
+
+                <p className="text-sm leading-relaxed text-white/60 group-hover:text-white/80 transition-colors duration-300 grow mb-8 relative z-10">
+                  "{testimonial.quote}"
+                </p>
+
+                <div className="flex items-center gap-3 mt-auto relative z-10">
+                  <div className="w-10 h-10 rounded-full bg-linear-to-br from-fuchsia-600 via-violet-600 to-sky-400 p-px shrink-0">
+                    <div className="w-full h-full bg-black rounded-full flex items-center justify-center text-white font-bold text-sm">
+                      {testimonial.author.charAt(0)}
+                    </div>
                   </div>
-                </CardContent>
-              </Card>
+                  <div>
+                    <p className="text-sm font-bold text-white">{testimonial.author}</p>
+                    <p className={cn("text-xs font-medium", brandGradient)}>{testimonial.role}</p>
+                  </div>
+                </div>
+
+                {/* Bottom accent */}
+                <div className="absolute bottom-0 left-0 h-px w-0 bg-linear-to-r from-fuchsia-600 via-violet-600 to-sky-400 transition-all duration-500 group-hover:w-full" />
+              </div>
             </motion.div>
           ))}
         </motion.div>
